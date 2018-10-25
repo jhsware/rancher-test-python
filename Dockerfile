@@ -9,7 +9,7 @@ RUN apk del libffi-dev build-base python-dev
 
 COPY . .
 
-ENV PORT 8080
+ENV PORT 5000
 EXPOSE  $PORT
 
 CMD [ "python", "./app.py" ]
