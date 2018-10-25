@@ -1,0 +1,12 @@
+stages:
+- name: Build
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: example-hellopython:${CICD_EXECUTION_SEQUENCE}
+      registry: 10.43.238.253:34243
+- name: Fire up!
+  steps:
+  - applyYamlConfig:
+      path: ./deployment.yml

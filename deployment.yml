@@ -1,0 +1,36 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: hellopython-service
+spec:
+  selector:
+    app: hellopython
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-hellopython
+  labels:
+    app: hellopython
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hellopython
+  template:
+    metadata:
+      labels:
+        app: hellopython
+    spec:
+      imagePullSecrets:
+      - name: pipeline-docker-registry
+      containers:
+      - name: hellopython
+        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        ports:
+        - containerPort: 8080
